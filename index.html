@@ -1,0 +1,1134 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AeroDash
+    
+  </title>
+  <link rel="stylesheet" href="styles/style.css">
+  <link rel="stylesheet" href="styles/login.css">
+
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- chart js graphics -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <!-- boostrap icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+</head>
+
+<body>
+  <!-- ✅ NAVBAR -->
+
+
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#" id="btnHome">
+        <i class="bi bi-airplane-fill"></i> AeroDash
+      </a>
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse " id="navbarContent">
+        <ul class="navbar-nav me-auto gap-2 col-lg-8">
+          <li class="nav-item">
+            <a class="nav-link" href="#" id="navVuelosReservados">
+              <i class="bi bi-airplane"></i> Vuelos Reservados
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#" id="navVuelos">
+              <i class="bi bi-airplane"></i> Vuelos
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="#" id="navConsultas">
+              <i class="bi bi-bar-chart-line"></i> Dashboard
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#" id="navDescripcion">
+              <i class="bi bi-info-circle-fill"></i> Descripción
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#" id="navIntegrantes">
+              <i class="bi bi-people-fill"></i> Integrantes
+            </a>
+          </li>
+        </ul>
+
+        <div class="pe-md-5 pe-sm-0 pb-lg-0 pb-sm-2">
+          <button id="btnTema" class="btn  btn-sm rounded-circle" title="Cambiar tema">🌙</button>
+        </div>     <div class="d-flex align-items-center col-lg-1">
+              <button id="btnLogin" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+  Login
+</button>
+
+<button id="btnLogout" class="btn btn-danger" style="display:none;">
+  Logout
+</button>
+
+        </div>
+
+        <!-- modal -->
+        <!-- ================= MODAL LOGIN ================= -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+
+              <div class="modal-body p-0">
+
+                <div id="loginContainerModal">
+
+                  <!-- Avión animado -->
+                  <!-- <img src="https://upload.wikimedia.org/wikipedia/commons/e/e0/Airplane_silhouette.svg" class="plane" alt="Avión volando"> -->
+
+                  <!-- Caja de login -->
+                  <div id="loginBox">
+                    <h2>Iniciar Sesión</h2>
+
+                    <form id="loginFormModal">
+                      <div class="mb-3 text-start">
+                        <label for="usuarioModal" class="form-label">Usuario</label>
+                        <input type="text" id="usuarioModal" class="form-control" required placeholder="Ej: admin">
+                      </div>
+
+                      <div class="mb-3 text-start">
+                        <label for="passwordModal" class="form-label">Contraseña</label>
+                        <input type="password" id="passwordModal" class="form-control" required placeholder="••••••">
+                      </div>
+
+                      <button type="submit" class="btn btn-primary w-100">Ingresar</button>
+                    </form>
+
+                    <!-- Botón de tema -->
+
+
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <!-- modal -->
+
+
+
+
+      </div>
+    </div>
+  </nav>
+
+  <!-- Margen para que no se tape el contenido -->
+  <div style="margin-top: 80px;"></div>
+
+  <!-- ✅ HOME -->
+  <div id="homeSection" class="container">
+    <div class="estela"></div>
+    <div class="avion">
+      <svg viewBox="0 0 64 64">
+        <path d="M2 32l60-12v6l-38 6 38 6v6L2 32z" />
+      </svg>
+    </div>
+    <div class="logo-aerodash">
+      <span class="aero">Aero</span><span class="dash">Dash</span>
+      <div class="underline"></div>
+    </div>
+    <div class="firma-grupo">Grupo </div>
+    <div class="pista-elegante">
+
+      <div class="lineas-luz"></div>
+    </div>
+
+
+
+  </div>
+  <!-- ✨ Estrellas solo visibles en la pestaña Panorama -->
+
+
+
+  <!-- ✅ CONSULTAS -->
+  <div id="consultasSection" class="container-fluid" style="display:none">
+
+    <!-- TABS -->
+    <div class="container-fluid mt-3">
+
+      <ul class="nav nav-pills gap-2" id="mainTabs" role="tablist">
+        <li class="nav-item"><button class="nav-link active" data-bs-toggle="pill" data-bs-target="#tab-panorama">1.
+            Panorama</button></li>
+        <li class="nav-item"><button class="nav-link" data-bs-toggle="pill" data-bs-target="#tab-rentabilidad">2.
+            Rentabilidad</button></li>
+      </ul>
+
+      <div class="tab-content">
+
+        <!-- ========================================================= -->
+        <!-- ✅ 1. PANORAMA -->
+        <!-- ========================================================= -->
+        <div class="tab-pane fade show active" id="tab-panorama">
+
+          <div class="col d-flex justify-content-end flex-wrap gap-2">
+            <select id="filtroAnioPanorama" class="form-select form-select-sm w-auto">
+              <option value="actual" selected>Año actual</option>
+              <option value="2025">2025</option>
+              <option value="2024">2024</option>
+              <option value="2023">2023</option>
+            </select>
+
+            <select id="filtroMesPanorama" class="form-select form-select-sm w-auto">
+              <option value="actual" selected>Mes actual</option>
+              <option value="1">Enero</option>
+              <option value="2">Febrero</option>
+              <option value="3">Marzo</option>
+              <option value="4">Abril</option>
+              <option value="5">Mayo</option>
+              <option value="6">Junio</option>
+              <option value="7">Julio</option>
+              <option value="8">Agosto</option>
+              <option value="9">Septiembre</option>
+              <option value="10">Octubre</option>
+              <option value="11">Noviembre</option>
+              <option value="12">Diciembre</option>
+            </select>
+
+            <button class="btn btn-primary btn-sm" id="btnAplicarFiltrosPanorama">Aplicar</button>
+          </div>
+
+          <!-- KPIs panorama -->
+          <div class="row g-3 mt-1">
+
+            <div class="col-12 col-lg-3">
+              <div class="kpi-card">
+                <div class="kpi-title">Ingresos mensuales</div>
+                <div class="kpi-value" id="kpiIngresos">$—</div>
+                <div class="kpi-sub">
+                  <span class="badge badge-soft">vs mes anterior</span>
+                  <span id="kpiIngresosDelta">—</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-12 col-lg-3">
+              <div class="kpi-card">
+                <div class="kpi-title">Ocupación promedio</div>
+                <div class="kpi-value" id="kpiOcupacion">—%</div>
+                <div class="kpi-sub">Fuente: <code>vw_OcupacionVuelos</code></div>
+              </div>
+            </div>
+
+            <div class="col-12 col-lg-3">
+              <div class="kpi-card">
+                <div class="kpi-title">Ticket promedio</div>
+                <div class="kpi-value" id="kpiTicket">$—</div>
+                <div class="kpi-sub">Fuente: <code>PRECIO_FINAL</code></div>
+              </div>
+            </div>
+
+            <div class="col-12 col-lg-3">
+              <div class="kpi-card">
+                <div class="kpi-title">Tasa de cancelación</div>
+                <div class="kpi-value" id="kpiCancel">—%</div>
+                <div class="kpi-sub">Fuente: <code>CANCELACIONES</code></div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- BLOQUE: Mejor mes + Rutas populares -->
+          <div class="row g-3 mt-1">
+
+            <!-- Mejor mes -->
+            <div class="col-12 col-xl-4">
+              <div class="card-soft p-3 h-100">
+                <div class="section-title">Mejor mes</div>
+
+                <div class="display-6" id="bestMonth">—</div>
+
+                <div id="bestMonthDetail" class="mt-2 small text-muted">
+                  <!-- Se completa por JS -->
+                </div>
+              </div>
+            </div>
+
+            <!-- Rutas más populares -->
+            <div class="col-12 col-xl-8">
+              <div class="card-soft p-3 h-100">
+                <div class="section-title">Rutas más populares</div>
+                <canvas id="chartRutasPopulares" height="120"></canvas>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+
+
+        <!-- ========================================================= -->
+        <!-- ✅ 2. RENTABILIDAD -->
+        <!-- ========================================================= -->
+        <div class="tab-pane fade" id="tab-rentabilidad">
+
+          <div class="col d-flex justify-content-end flex-wrap gap-2">
+            <select id="filtroAnioRent" class="form-select form-select-sm w-auto">
+              <option value="actual" selected="">Año actual</option>
+              <option value="2025">2025</option>
+              <option value="2024">2024</option>
+              <option value="2023">2023</option>
+            </select>
+
+            <!--Filtro por mes-->
+
+            <select id="filtroMesRent" class="form-select form-select-sm w-auto">
+              <option value="actual" selected="">Actual</option>
+              <option value="1">Enero</option>
+              <option value="2">Febrero</option>
+              <option value="3">Marzo</option>
+              <option value="4">Abril</option>
+              <option value="5">Mayo</option>
+              <option value="6">Junio</option>
+              <option value="7">Julio</option>
+              <option value="8">Agosto</option>
+              <option value="9">Septiembre</option>
+              <option value="10">Octubre</option>
+              <option value="11">Noviembre</option>
+              <option value="12">Diciembre</option>
+            </select>
+
+            <button class="btn btn-primary btn-sm" id="btnAplicarFiltrosRent">Aplicar</button>
+          </div>
+
+
+          <div class="row g-3">
+            <div class="col-lg-8">
+              <div class="card-soft p-3">
+                <h6>Márgenes por ruta</h6>
+                <canvas id="chartMargenes" height="120"></canvas>
+              </div>
+            </div>
+
+            <div class="col-lg-4">
+              <div class="card-soft p-3">
+                <h6>Alertas</h6>
+                <ul id="alertasMargen" class="list-group list-group-flush"></ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-soft p-3 mt-3">
+            <h6>Detalle</h6>
+            <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
+              <table class="table table-sm table-modern">
+                <thead>
+                  <tr>
+                    <th>Origen</th>
+                    <th>Destino</th>
+                    <th>Año</th>
+                    <th>Mes</th>
+                    <th>Margen</th>
+                  </tr>
+                </thead>
+                <tbody id="tblRutasRentables"></tbody>
+              </table>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================= -->
+  <!-- ✅ VuelosReservados -->
+  <!-- ========================================================= -->
+  <div class="container" id="vuelosReservadosSection" style="display:none">
+<h5 class="mb-3">Buscar reserva</h5>
+
+  <div class="row g-3 align-items-end">
+    <div class="col-md-4">
+      <label class="form-label small-label">Nombre Cliente</label>
+      <input type="text" id="clienteinput" class="form-control" placeholder="EJ:mateo ortiz">
+    </div>
+
+    <div class="col-md-3">
+      <button id="buscarreservaClienteBtn" class="btn btn-primary px-4">
+        Buscar Cliente
+      </button>
+    </div>
+  </div>
+
+    <!-- Modal Editar Vuelo -->
+    <div class="modal fade" id="editVueloModal" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+          <div class="modal-header">
+            <h5 class="modal-title fw-bold">Editar Vuelo</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+
+          <div class="modal-body">
+            <form id="editVueloForm">
+
+              <input type="hidden" id="editId">
+
+              <div class="mb-3">
+                <label class="form-label">Origen</label>
+                <input type="text" class="form-control" id="editOrigen">
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label">Destino</label>
+                <input type="text" class="form-control" id="editDestino">
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label">Precio</label>
+                <input type="number" class="form-control" id="editPrecio">
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label">Asiento</label>
+                <input type="text" class="form-control" id="editAsiento">
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label">Pasajero</label>
+                <input type="text" class="form-control" id="editPasajero">
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label">DNI</label>
+                <input type="text" class="form-control" id="editDni">
+              </div>
+
+            </form>
+          </div>
+
+          <div class="modal-footer">
+            <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+            <button type="submit" form="editVueloForm" class="btn btn-primary">Guardar cambios</button>
+          </div>
+
+
+        </div>
+      </div>
+    </div>
+    <!-- Modal Confirmar Eliminación -->
+    <div class="modal fade" id="deleteVueloModal" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+          <div class="modal-header">
+            <h5 class="modal-title fw-bold">Confirmar eliminación</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+
+          <div class="modal-body">
+            <p id="deleteMessage" class="m-0"></p>
+            <input type="hidden" id="deleteId">
+          </div>
+
+          <div class="modal-footer">
+            <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+            <button class="btn btn-danger" id="btnDeleteConfirm">Eliminar</button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Vuelos Reservados -->
+    <div class="container mt-4">
+      <h3 class="fw-bold m-0">Vuelos Reservados</h3>
+      <p class="text-muted mb-2">Listado de pasajeros y detalles de las reservas</p>
+      <hr>
+      <!-- <div id="vuelosReservados" class="row g-3"></div> -->
+      <!-- Contenedor -->
+      <div id="vuelosReservados" class="row g-3"></div>
+
+      <!-- Modales (esqueleto mínimo, adaptá los campos según tu modal real) -->
+      <!-- Edit modal -->
+      <!-- Edit modal (segunda versión, renombrada) -->
+      <div class="modal fade" id="editVueloModal2" tabindex="-1">
+        <div class="modal-dialog">
+          <form id="editVueloForm2" class="modal-content">
+            <input type="hidden" id="editId2" />
+            <div class="modal-body">
+              <input id="editOrigen2" placeholder="Origen" class="form-control mb-2" />
+              <input id="editDestino2" placeholder="Destino" class="form-control mb-2" />
+              <input id="editPrecio2" placeholder="Precio" class="form-control mb-2" />
+              <input id="editAsiento2" placeholder="Asiento" class="form-control mb-2" />
+              <input id="editPasajero2" placeholder="Pasajero" class="form-control mb-2" />
+              <input id="editDni2" placeholder="DNI" class="form-control mb-2" />
+            </div>
+            <div class="modal-footer">
+              <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Cancelar</button>
+              <button class="btn btn-primary" type="submit">Guardar</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Delete confirm modal (segunda versión, renombrada) -->
+      <div class="modal fade" id="deleteVueloModal2" tabindex="-1">
+        <div class="modal-dialog">
+          <div class="modal-content p-3">
+            <input type="hidden" id="deleteId2" />
+            <p id="deleteMessage2"></p>
+            <div class="d-flex justify-content-end gap-2">
+              <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+              <button id="btnDeleteConfirm2" class="btn btn-danger">Eliminar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- pestaña Vuelos -->
+  <div class="container" id="vuelosSection" style="display:none">
+    <h3 class="fw-bold m-0">Vuelos</h3>
+    <p class="text-muted mb-2">Gestión de vuelos</p>
+
+    <!-- Tabs -->
+    <ul class="nav nav-tabs" id="vuelosTabs" role="tablist">
+      <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="nuevo-tab" data-bs-toggle="tab" data-bs-target="#nuevoVuelo" type="button"
+          role="tab">Nuevo Vuelo</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="lista-tab" data-bs-toggle="tab" data-bs-target="#listaVuelos" type="button"
+          role="tab">Asignacion Vuelos</button>
+      </li>
+    </ul>
+
+    <div class="tab-content mt-3">
+
+      <!-- ============================================================
+             NUEVO VUELO
+        ============================================================ -->
+      <div class="tab-pane fade show active" id="nuevoVuelo" role="tabpanel">
+
+        <form id="formVuelo">
+          <div class="text-end mb-3" style="max-width:1100px; margin:auto;">
+            <button type="button" class="btn btn-success px-4" data-bs-toggle="modal" data-bs-target="#modalNuevoVuelo">
+              + Crear Nuevo Vuelo
+            </button>
+          </div>
+
+          <!-- BUSCADOR  DE VUELOS EN CREAR NUEVO VUELO-->
+          <div class="card p-4 mb-4" style="max-width:1100px; margin:auto;">
+            <h4 class="mb-4">Buscar Vuelos</h4>
+
+            <div class="row g-3 align-items-end">
+
+              <div class="col-md-3">
+                <label class="form-label">ORIGEN</label>
+                <select id="origenNuevo" class="form-select combo-origen"></select>
+              </div>
+
+              <div class="col-md-3">
+                <label class="form-label">DESTINO</label>
+                <select id="destinoNuevo" class="form-select combo-destino"></select>
+              </div>
+
+              <div class="col-md-3">
+                <label class="form-label">FECHA</label>
+                <input id="fechaNuevo" type="date" class="form-control">
+              </div>
+
+              <div class="col-md-3 text-end">
+                <button id="buscarNuevo" class="btn btn-primary px-4">Buscar</button>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- TABLA VUELOS -->
+          <div class="card p-4" style="max-width:1100px; margin:auto;">
+            <h5 class="mb-3">Vuelos disponibles</h5>
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th>Código</th>
+                  <th>Origen</th>
+                  <th>Destino</th>
+                  <th>Salida</th>
+                  <th>Llegada</th>
+                  <th>Avión</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="vuelosBodyNuevo"></tbody>
+            </table>
+          </div>
+        </form>
+
+        <!-- MODAL CREAR VUELO -->
+        <div class="modal fade" id="modalNuevoVuelo" tabindex="-1">
+          <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+
+              <div class="modal-header">
+                <h5 class="modal-title">Crear Nuevo Vuelo</h5>
+                <button class="btn-close" data-bs-dismiss="modal"></button>
+              </div>
+
+              <div class="modal-body">
+
+                <form id="mdlFormCrearVuelo">
+                  <div class="row g-3">
+
+                    <!-- =================== -->
+                    <!-- AVIÓN OPERATIVO     -->
+                    <!-- =================== -->
+                    <div class="col-md-6">
+                      <label class="form-label">Avión operativo</label>
+                      <select id="mdlAvion" class="form-select" required>
+                        <option value="">Seleccione un avión operativo...</option>
+                      </select>
+                      <div id="mdlAvionError" class="form-text text-danger d-none"></div>
+                    </div>
+
+                    <!-- =================== -->
+                    <!-- AEROPUERTO ORIGEN   -->
+                    <!-- =================== -->
+                    <div class="col-md-6">
+                      <label class="form-label">Aeropuerto de origen</label>
+                      <select id="mdlOrigen" class="form-select combo-origen" required>
+                        <option value="">Seleccione aeropuerto de origen...</option>
+                      </select>
+                      <div id="mdlOrigenError" class="form-text text-danger d-none"></div>
+                    </div>
+
+                    <!-- =================== -->
+                    <!-- AEROPUERTO DESTINO  -->
+                    <!-- =================== -->
+                    <div class="col-md-6">
+                      <label class="form-label">Aeropuerto de destino</label>
+                      <select id="mdlDestino" class="form-select combo-destino" required>
+                        <option value="">Seleccione aeropuerto de destino...</option>
+                      </select>
+                      <div id="mdlDestinoError" class="form-text text-danger d-none"></div>
+                    </div>
+
+                    <!-- =================== -->
+                    <!-- FECHA / HORA SALIDA -->
+                    <!-- =================== -->
+                    <div class="col-md-6">
+                      <label class="form-label">Fecha de salida</label>
+                      <input type="date" id="mdlFechaSalida" class="form-control" required>
+                    </div>
+
+                    <div class="col-md-6">
+                      <label class="form-label">Hora de salida</label>
+                      <input type="time" id="mdlHoraSalida" class="form-control" required>
+                    </div>
+
+                    <!-- =================== -->
+                    <!-- FECHA / HORA LLEGADA -->
+                    <!-- =================== -->
+                    <div class="col-md-6">
+                      <label class="form-label">Fecha de llegada</label>
+                      <input type="date" id="mdlFechaLlegada" class="form-control" required>
+                    </div>
+
+                    <div class="col-md-6">
+                      <label class="form-label">Hora de llegada</label>
+                      <input type="time" id="mdlHoraLlegada" class="form-control" required>
+                    </div>
+
+                    <!-- =================== -->
+                    <!-- PRECIO BASE          -->
+                    <!-- =================== -->
+                    <div class="col-md-6">
+                      <label class="form-label">Precio base del vuelo</label>
+                      <input type="number" id="mdlPrecioBase" class="form-control" min="0" value="0" required>
+                    </div>
+
+                  </div>
+
+                  <div id="mdlMensajeFormulario" class="form-text text-danger mt-2 d-none"></div>
+
+                  <div class="modal-footer mt-3">
+                    <button type="submit" id="mdlBtnCrearVuelo" class="btn btn-success px-4">
+                      Crear vuelo
+                    </button>
+                         <button type="submit" id="mdlBtnCrearVuelo" class="btn btn-success px-4 d-none">
+                      Editar Vuelo
+                    </button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                      Cancelar
+                    </button>
+                  </div>
+
+                </form>
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+
+      <!-- ============================================================
+             LISTA / ASIGNACIÓN DE VUELOS
+        ============================================================ -->
+      <div class="tab-pane fade" id="listaVuelos" role="tabpanel">
+
+        <h5 class="fw-bold">Listado de vuelos</h5>
+
+        <div class="card p-4 mb-4" style="max-width:1100px; margin:auto;">
+          <h4 class="mb-3">Vender Pasaje — Buscar Vuelo</h4>
+
+          <div class="row g-3 align-items-end">
+
+            <div class="col-md-3">
+              <label class="form-label small-label">ORIGEN</label>
+              <select id="originSelect" class="form-select combo-origen">
+                <option value="">Seleccione un origen</option>
+              </select>
+            </div>
+
+            <div class="col-md-3">
+              <label class="form-label small-label">DESTINO</label>
+              <select id="destinoSelect" class="form-select combo-destino">
+                <option value="">Seleccione un destino</option>
+              </select>
+              <div id="errorMsg" class="text-danger small mt-1" style="display:none;">
+                Origen y destino no pueden ser iguales.
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <label class="form-label small-label">FECHA</label>
+              <input type="date" id="fechaInput" class="form-control">
+            </div>
+
+            <div class="col-md-3 text-end">
+              <button id="buscarBtn" class="btn btn-primary px-4">Buscar</button>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="card p-4 mb-4" style="max-width:1100px; margin:auto;">
+          <h5 class="mb-3">Vuelos disponibles</h5>
+
+          <table class="table table-hover align-middle">
+            <thead class="table-light">
+              <tr>
+                <th>Código</th>
+                <th>Origen</th>
+                <th>Destino</th>
+                <th>Salida</th>
+                <th>Llegada</th>
+                <th>Avión</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="vuelosBody"></tbody>
+          </table>
+        </div>
+
+        <div class="card p-4 mb-4" style="max-width:1100px; margin:auto;">
+          <h5 class="mb-3">Seleccionar Asiento</h5>
+
+          <select id="asientoSelect" class="form-select">
+            <option value="">Seleccione un asiento</option>
+          </select>
+        </div>
+
+        <!-- ============================
+        Selección de Equipaje
+        ============================ -->
+        <div class="card p-4 mb-4" style="max-width:1100px; margin:auto;">
+          <h5 class="mb-3">Seleccionar Equipaje</h5>
+
+          <div class="row">
+
+            <!-- EQUIPAJE DE MANO -->
+            <div class="col-md-6 d-flex align-items-center gap-2">
+              <span style="font-size: 30px;">🛄</span>
+              <label>
+                <input type="radio" class="equipaje-radio" name="tipoEquipajeCheck" value="1">
+                Equipaje de mano
+              </label>
+            </div>
+
+            <!-- EQUIPAJE DE BODEGA -->
+            <div class="col-md-6 d-flex align-items-center gap-2">
+              <span style="font-size: 30px;">🧳</span>
+              <label>
+                <input type="radio" class="equipaje-radio" name="tipoEquipajeCheck" value="2">
+                Equipaje en bodega
+              </label>
+            </div>
+
+          </div>
+
+        </div>
+
+<!-- CLIENTES -->
+ 
+<!-- ============================
+       4) BUSCAR CLIENTE
+============================ -->
+<div class="card p-4 mb-4" style="max-width:1100px; margin:auto;">
+  <h5 class="mb-3">Buscar Cliente</h5>
+
+  <div class="row g-3 align-items-end">
+    <div class="col-md-4">
+      <label class="form-label small-label">DNI</label>
+      <input type="text" id="dniInput" class="form-control" placeholder="Ej: 30123456">
+    </div>
+
+    <div class="col-md-3">
+      <button id="buscarClienteBtn" class="btn btn-primary px-4">
+        Buscar Cliente
+      </button>
+    </div>
+  </div>
+
+  <div class="mt-4">
+    <table class="table table-hover align-middle">
+      <thead class="table-light">
+        <tr>
+          <th>Nombre</th>
+          <th>Apellido</th>
+          <th>DNI</th>
+          <th>Email</th>
+          <th class="text-center">✔</th>
+        </tr>
+      </thead>
+      <tbody id="clientesBody"></tbody>
+    </table>
+  </div>
+
+  <div class="text-end mt-3">
+<div class="text-end mt-3" id="btnCrearClienteContainer">
+    <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#modalNuevoCliente">
+      Crear nuevo cliente
+    </button>
+</div>
+    <div id="accionesCliente" class="text-end mt-3 d-none">
+    <button id="btnEditarCliente" class="btn btn-warning me-2">Editar</button>
+    <button id="btnEliminarCliente" class="btn btn-danger">Eliminar</button>
+</div>
+
+  </div>
+</div>
+
+<!-- ============================
+       5) MODAL CREAR CLIENTE
+============================ -->
+<div class="modal fade" id="modalNuevoCliente" tabindex="-1">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h5 class="modal-title">Crear Nuevo Cliente</h5>
+        <button class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body">
+        <form id="formNuevoCliente">
+
+          <div class="row g-3">
+
+            <div class="col-md-6">
+              <label class="form-label small-label">Nombre</label>
+              <input type="text" id="inputNombre" class="form-control" required>
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label small-label">Apellido</label>
+              <input type="text" id="inputApellido" class="form-control" required>
+            </div>
+
+            <!-- TIPO DOC -->
+            <div class="col-md-4">
+              <label class="form-label small-label">Tipo Documento</label>
+              <select class="form-select" id="selectTipoDoc" required>
+                <option value="">Seleccionar tipo de Documento</option>
+              </select>
+            </div>
+
+            <div class="col-md-4">
+              <label class="form-label small-label">Número Documento</label>
+              <input type="number" id="inputNroDoc" class="form-control" required>
+            </div>
+
+            <!-- TIPO CLIENTE -->
+            <div class="col-md-4">
+              <label class="form-label small-label">Tipo Cliente</label>
+              <select class="form-select" id="selectTipoCliente" required>
+                <option value="">Seleccionar tipo de cliente</option>
+              </select>
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label small-label">Calle</label>
+              <input type="text" id="inputCalle" class="form-control">
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label small-label">Provincia</label>
+              <select class="form-select" id="selectProvincia" required>
+                <option value="">Seleccionar Provincia</option>
+              </select>
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label small-label">Email</label>
+              <input type="email" id="inputEmail" class="form-control">
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label small-label">Teléfono</label>
+              <input type="text" id="inputTelefono" class="form-control">
+            </div>
+
+          </div>
+
+        </form>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-success" id="btnGuardarCliente">Guardar Cliente</button>
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button class="btn btn-primary" id="btnActualizarCliente" style="display:none;">Actualizar Cliente</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+        <div class="card p-4 mt-4" style="max-width:1100px; margin:auto;">
+          <div class="d-flex justify-content-end">
+            <button id="venderPasajeBtn" class="btn btn-success px-5 py-2 fs-5">
+              💳 Vender Pasaje
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+
+
+  <!-- ✅ DESCRIPCIÓN -->
+  <div id="descripcionSection" class="container" style="display:none">
+    <h2 class="mt-4">Descripción</h2>
+    <p>Información general sobre el sistema Aerolíneas-Arg.</p>
+
+    <main class="container my-5">
+      <div class="row g-4">
+
+        <!-- Introducción -->
+        <div class="col-12">
+          <div class="card p-4 d-flex flex-column flex-md-row align-items-center gap-4">
+            <img src="https://img.freepik.com/vector-premium/objetivos-estrategicos-infografia_23-2148817993.jpg"
+              alt="Dashboard general" class="img-fluid rounded shadow" style="max-width: 300px;">
+            <div>
+              <h2 class="section-title"><i class="bi bi-lightbulb"></i> Introducción</h2>
+              <p><strong>AeroDash</strong> es una aplicación de <em>business intelligence</em> diseñada para
+                centralizar
+                y analizar datos operativos, financieros y de clientes de aerolíneas. Proporciona métricas accionables
+                para la toma de decisiones estratégicas y tácticas.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Objetivos -->
+        <div class="col-md-6">
+          <div class="card p-4 d-flex flex-column flex-md-row align-items-center gap-4">
+            <img src="https://img.freepik.com/vector-premium/objetivos-estrategicos-infografia_23-2148817993.jpg"
+              alt="Objetivos estratégicos" class="img-fluid rounded shadow" style="max-width: 200px;">
+            <div>
+              <h2 class="section-title"><i class="bi bi-bullseye"></i> Objetivos del Sistema</h2>
+              <p>Transformar datos operativos crudos en información procesable mediante análisis avanzado y
+                visualización intuitiva.</p>
+              <ul>
+                <li>Optimizar la ocupación de Aviones</li>
+                <li>Reducir cancelaciones</li>
+                <li>Mejorar la rentabilidad según temas del problema</li>
+                <li>Segmentar clientes según comportamiento y valor</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Arquitectura -->
+        <div class="col-md-6">
+          <div class="card p-4 d-flex flex-column flex-md-row align-items-center gap-4">
+            <img
+              src="https://cdn.aicad.es/asset/img/3/el-futuro-de-la-arquitectura-de-software-tendencias-a-tener-en-cuenta-100.jpeg"
+              alt="Arquitectura del sistema" class="img-fluid rounded shadow" style="max-width: 200px;">
+            <div>
+              <h2 class="section-title"><i class="bi bi-diagram-3"></i> Arquitectura y Funcionalidades</h2>
+              <p>Basada en una arquitectura relacional con tablas optimizadas, cubre aspectos relacionados a problemas
+                de una empresa en particular:</p>
+              <ul>
+                <li>Panorama general de la empresa con indicadores claves</li>
+                <li>Análisis de rentabilidad por ruta y cliente</li>
+                <li>Monitoreo de ocupacion de aviones</li>
+                <li>Segmentación avanzada de clientes</li>
+                <li>Análisis de cancelaciones y reembolsos</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Público objetivo -->
+        <div class="col-md-6">
+          <div class="card p-4 d-flex flex-column flex-md-row align-items-center gap-4">
+            <img src="https://img.freepik.com/vector-premium/analisis-publico-objetivo_23-2148817991.jpg"
+              alt="Público objetivo" class="img-fluid rounded shadow" style="max-width: 200px;">
+            <div>
+              <h2 class="section-title"><i class="bi bi-people"></i> Público Objetivo</h2>
+              <p>Dirigido a profesionales técnicos y gerenciales del sector aeronáutico, incluyendo:</p>
+              <ul>
+                <li>Gerentes de operaciones aéreas</li>
+                <li>Responsables de revenue management</li>
+                <li>Supervisores de flota</li>
+                <li>Analistas de negocio y ejecutivos de líneas aéreas</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Resultados esperados -->
+        <div class="col-md-6">
+          <div class="card p-4 d-flex flex-column flex-md-row align-items-center gap-4">
+            <img src="https://img.freepik.com/vector-premium/resultados-exitosos-infografia_23-2148817994.jpg"
+              alt="Resultados esperados" class="img-fluid rounded shadow" style="max-width: 300px;">
+            <div>
+              <h2 class="section-title"><i class="bi bi-trophy"></i> Resultados Esperados</h2>
+              <p>La implementación de <strong>AeroDash</strong> busca optimizar la capacidad operativa, reducir
+                cancelaciones, mejorar la toma de decisiones comerciales y potenciar el mantenimiento predictivo
+                basado
+                en datos reales de uso.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+
+  <!-- ✅ INTEGRANTES -->
+  <div id="integrantesSection" class="container py-5" style="display:none">
+    <h2 class="text-center mb-4 fw-bold">Integrantes del Equipo</h2>
+
+    <div class="row g-4 justify-content-center">
+
+      <!-- INTEGRANTE -->
+      <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
+        <div class="team-card p-3">
+          <img class="team-avatar"
+            src="https://uvs.frc.utn.edu.ar/pluginfile.php/18985/user/icon/adaptable/f1?rev=877657">
+          <h5 class="team-name mt-3">Juan Manuel Bosque Bonanate</h5>
+          <p class="team-role">Alumno 1w3</p>
+          <p class="legajo-role">Legajo: 112901</p>
+          <a class="btn btn-outline-primary btn-sm w-100 mt-2">LinkedIn</a>
+        </div>
+      </div>
+
+      <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
+        <div class="team-card p-3">
+          <img class="team-avatar"
+            src="https://uvs.frc.utn.edu.ar/pluginfile.php/56110/user/icon/adaptable/f1?rev=764440">
+          <h5 class="team-name mt-3">Kiara Parisi Nakayama</h5>
+          <p class="team-role">Alumno 1w3</p>
+          <p class="legajo-role">Legajo: </p>
+          <a class="btn btn-outline-primary btn-sm w-100 mt-2">LinkedIn</a>
+        </div>
+      </div>
+
+      <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
+        <div class="team-card p-3">
+          <img class="team-avatar"
+            src="https://uvs.frc.utn.edu.ar/pluginfile.php/44238/user/icon/adaptable/f1?rev=808754">
+          <h5 class="team-name mt-3">Luciano Agustin Bognanno</h5>
+          <p class="team-role">Alumno 1w3</p>
+          <p class="legajo-role">Legajo: </p>
+          <a class="btn btn-outline-primary btn-sm w-100 mt-2">LinkedIn</a>
+        </div>
+      </div>
+
+      <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
+        <div class="team-card p-3">
+          <img class="team-avatar"
+            src="https://uvs.frc.utn.edu.ar/pluginfile.php/56194/user/icon/adaptable/f1?rev=762670">
+          <h5 class="team-name mt-3">Andres Mariano Almarcha</h5>
+          <p class="team-role">Alumno 1w3</p>
+          <p class="legajo-role">Legajo: 412414</p>
+          <a class="btn btn-outline-primary btn-sm w-100 mt-2">LinkedIn</a>
+        </div>
+      </div>
+
+      <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
+        <div class="team-card p-3">
+          <img class="team-avatar"
+            src="https://uvs.frc.utn.edu.ar/pluginfile.php/32163/user/icon/adaptable/f1?rev=647132">
+          <h5 class="team-name mt-3">Federico Mathias Agüero</h5>
+          <p class="team-role">Alumno 1w3</p>
+          <p class="legajo-role">Legajo: 114004</p>
+          <a class="btn btn-outline-primary btn-sm w-100 mt-2">LinkedIn</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+
+
+  <!-- JS de Bootstrap (bundle con Popper) -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  
+  <!-- SWEET ALERT -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <script src="javaScript/app.js" defer></script>
+  <script src="javaScript/crudRervasVuelo/reservarVueloC.js" defer></script>
+  <script src="javaScript/crudRervasVuelo/vuelosReservadosR_U_D.js" defer></script>
+
+
+  <script src="javaScript/crudVuelo/BuscadorEnCrear.js" defer></script>
+  <script src="javaScript/crudVuelo/crearVuelo.js" defer></script>
+  
+  <script src="javaScript/crudClientes/clientesBuscar.js" defer></script>
+  <script src="javaScript/crudClientes/clientesModal.js" defer></script>
+  <script src="javaScript/crudClientes/editarClient.js" defer></script>
+  <script src="javaScript/crudClientes/borrarCliente.js" defer></script>
+  
+
+<script src="javaScript/login/login.js" defer></script>
+
+
+
+
+
+
+</body>
+
+</html>
