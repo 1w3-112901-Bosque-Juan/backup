@@ -160,7 +160,7 @@ mdlForm.addEventListener("submit", async (e) => {
             return;
         }
 
-        const data = await resp.json();
+        const data = await resp.text();
 
         limpiarFormularioVuelo();
         alert(`✔ Vuelo creado correctamente: Código ${data.codigoVuelo ?? "(generado)"}`);

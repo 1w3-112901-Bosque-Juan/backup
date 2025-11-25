@@ -280,9 +280,6 @@ async function cargarPanorama(anio = null, mes = null) {
   }
 }
 
-// ============================
-// Filtros Panorama
-// ============================
 document.getElementById("btnAplicarFiltrosPanorama")
   ?.addEventListener("click", () => {
 
@@ -296,11 +293,7 @@ document.getElementById("btnAplicarFiltrosPanorama")
     cargarPanorama(anio, mes);
   });
 
-//
-// ====================================================================
-//   RENTABILIDAD
-// ====================================================================
-//
+
 
 let chartMargenes = null;
 
@@ -327,7 +320,6 @@ async function cargarRentabilidad(anio = null, mes = null) {
 
     if (!res.ok) {
       const errorText = await res.text();
-      console.error("Error del servidor:", errorText);
       alert("Error al obtener rentabilidad. Ver consola.");
       return;
     }

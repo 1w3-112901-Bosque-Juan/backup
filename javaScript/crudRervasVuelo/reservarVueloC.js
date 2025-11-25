@@ -1,18 +1,10 @@
-// ====================================================================== 
-//  RESERVAR PASAJE — MÓDULO COMPLETO (CORREGIDO al 100%)
-// ======================================================================
 
-// ======================================================================
-// VARIABLES GLOBALES
-// ======================================================================
 let vueloSeleccionado = null;
 let clienteSeleccionado = null;
 let asientoSeleccionado = null;
 let equipajeSeleccionado = null;
 
-// ======================================================================
-// ELEMENTOS DEL DOM
-// ======================================================================
+
 const originSelects = document.getElementById("originSelect");
 const destinoSelect = document.getElementById("destinoSelect");
 const fechaInput = document.getElementById("fechaInput");
@@ -29,17 +21,12 @@ const venderPasajeBtn = document.getElementById("venderPasajeBtn");
 
 const obsInput = document.getElementById("obsInput");
 
-// ======================================================================
-// ENDPOINTS
-// ======================================================================
 const AEROPUERTOS_URL = "https://localhost:7061/abmc/reservaVuelo/aeropuertos";
 const VUELOS_URL = "https://localhost:7061/abmc/reservaVuelo/vuelos";
 const CLIENTES_URL = "https://localhost:7061/abmcVuelo/Clientes_nrodoc";
 const RESERVA_URL = "https://localhost:7061/abmc/reservaVuelo";
 
-// ======================================================================
-// 1) CARGAR AEROPUERTOS
-// ======================================================================
+
 async function cargarAeropuertosReserva() {
     try {
         const resp = await fetch(AEROPUERTOS_URL);
@@ -62,9 +49,6 @@ async function cargarAeropuertosReserva() {
 
 cargarAeropuertosReserva();
 
-// ======================================================================
-// 2) BUSCAR VUELOS
-// ======================================================================
 async function buscarVuelos() {
 
     vuelosBody.innerHTML = "";
@@ -86,7 +70,6 @@ async function buscarVuelos() {
 
     try {
         const resp = await fetch(`${VUELOS_URL}/${idOrigen}/${idDestino}/${fecha}`);
-console.log(resp, "linea 89")
         if (resp.status === 404) {
             vuelosBody.innerHTML = `<tr><td colspan="7">No se encontraron vuelos</td></tr>`;
             return;
@@ -96,10 +79,8 @@ console.log(resp, "linea 89")
             vuelosBody.innerHTML = `<tr><td colspan="7">Error en la búsqueda</td></tr>`;
             return;
         }
-console.log(resp, "linea 99")
 
         const vuelos = await resp.json();
-console.log(vuelos, "linea 102")
 
         renderizarVuelos(vuelos);
     }
@@ -111,9 +92,6 @@ console.log(vuelos, "linea 102")
 
 buscarBtn.addEventListener("click", buscarVuelos);
 
-// ======================================================================
-// 3) MOSTRAR VUELOS
-// ======================================================================
 function renderizarVuelos(lista) {
     vuelosBody.innerHTML = "";
 
@@ -142,9 +120,6 @@ function renderizarVuelos(lista) {
     });
 }
 
-// ======================================================================
-// 4) FORMATEAR FECHA
-// ======================================================================
 function formatearFecha(iso) {
     const d = new Date(iso);
     const fecha = d.toLocaleDateString("es-AR");
@@ -155,9 +130,6 @@ function formatearFecha(iso) {
     return `${fecha} ${hora}`;
 }
 
-// ======================================================================
-// 5) SELECCIÓN ÚNICA DE VUELO
-// ======================================================================
 document.addEventListener("change", e => {
 
     if (!e.target.classList.contains("selector-vuelo")) return;
@@ -184,9 +156,7 @@ document.addEventListener("change", e => {
     });
 });
 
-// ======================================================================
-// 6) SELECCIÓN DE ASIENTO
-// ======================================================================
+
 asientoSelect.addEventListener("change", () => {
     if (!asientoSelect.value) {
         asientoSeleccionado = null;
@@ -198,9 +168,6 @@ asientoSelect.addEventListener("change", () => {
         vueloSeleccionado.asientosLibres.find(a => a.idAsiento == idA);
 });
 
-// ======================================================================
-// 7) BUSCAR CLIENTE
-// ======================================================================
 buscarClienteBtn.addEventListener("click", async () => {
 
     const dni = dniInput.value.trim();
@@ -236,13 +203,9 @@ buscarClienteBtn.addEventListener("click", async () => {
         });
     }
     catch (err) {
-        console.error("Error al buscar cliente:", err);
     }
 });
 
-// ======================================================================
-// 8) SELECCIÓN ÚNICA DE CLIENTE (CORREGIDA)
-// ======================================================================
 clientesBody.addEventListener("change", e => {
 
     if (!e.target.classList.contains("chk-cliente")) return;
@@ -279,18 +242,8 @@ document.addEventListener("change", e => {
 });
 
 
-
-// ======================================================================
-// 10) ARMAR JSON
-// ======================================================================
 function armarReservaJson() {
-// return {
-//   idPasajero: 3,
-//   idVuelo: 4,
-//   idAsiento: 20,
-//   idTipoEquipaje: 1,
-//   observaciones: "texto"
-// }
+
     if (!vueloSeleccionado) return alert("Debe seleccionar un vuelo.");
     if (!asientoSeleccionado) return alert("Debe seleccionar un asiento.");
     if (!clienteSeleccionado) return alert("Debe seleccionar un cliente.");
@@ -306,9 +259,7 @@ function armarReservaJson() {
 }
 
 
-// ======================================================================
-// 11) ENVIAR RESERVA
-// ======================================================================
+
 venderPasajeBtn.addEventListener("click", async () => {
 
     const reserva = armarReservaJson();
@@ -323,7 +274,6 @@ venderPasajeBtn.addEventListener("click", async () => {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(reserva)
         });
-console.log(resp, "320")
         if (!resp.ok) {
             alert("❌ Error al realizar la reserva");
             return;
@@ -331,7 +281,6 @@ console.log(resp, "320")
 
         alert("✅ Reserva enviada correctamente");
 
-        // Reset de UI
         document.querySelectorAll(".selector-vuelo").forEach(c => c.checked = false);
         vueloSeleccionado = null;
 
@@ -341,7 +290,7 @@ console.log(resp, "320")
         document.querySelectorAll(".chk-cliente").forEach(c => c.checked = false);
         clienteSeleccionado = null;
 
-        equipajeChecks.forEach(r => r.checked = false);
+        document.querySelectorAll("equipaje-radio").forEach(c => c.checked = false);
         equipajeSeleccionado = null;
 
         if (obsInput) obsInput.value = "";

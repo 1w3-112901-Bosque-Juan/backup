@@ -86,7 +86,6 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             const vuelos = await resp.json();
-            console.log(`✅ ${vuelos.length} vuelos encontrados`);
 
             renderizarVuelosNuevo(vuelos);
 
@@ -102,9 +101,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    // ======================================================================
-    // RENDERIZAR VUELOS EN LA TABLA
-    // ======================================================================
 function renderizarVuelosNuevo(lista) {
     if (!lista || lista.length === 0) {
         vuelosBodyNuevo.innerHTML = `
@@ -147,9 +143,6 @@ function renderizarVuelosNuevo(lista) {
     `).join("");
 }
 
-    // ======================================================================
-    // FORMATEAR FECHA
-    // ======================================================================
     function formatearFecha(fechaISO) {
         if (!fechaISO) return "N/A";
         
@@ -163,28 +156,19 @@ function renderizarVuelosNuevo(lista) {
         return `${dia}/${mes}/${anio} ${horas}:${minutos}`;
     }
 
-    // ======================================================================
-    // EVENT LISTENERS
-    // ======================================================================
     if (buscarNuevo) {
         buscarNuevo.addEventListener("click", (e) => {
-            e.preventDefault(); // Evitar submit del form
+            e.preventDefault(); 
             buscarVuelosNuevo();
         });
     }
 
-    // Cargar aeropuertos al iniciar
     cargarAeropuertosNuevo();
 
-    console.log("✅ Buscador de vuelos Nuevo inicializado");
 });
 
-// ======================================================================
-// FUNCIÓN GLOBAL PARA VER DETALLE
-// ======================================================================
 function verDetalleVueloNuevo(idVuelo, codigoVuelo) {
     console.log(`Ver detalle del vuelo: ${codigoVuelo} (ID: ${idVuelo})`);
-    // Aquí puedes abrir un modal o navegar a otra vista
     alert(`Detalles del vuelo:\nCódigo: ${codigoVuelo}\nID: ${idVuelo}`);
 }
 async function eliminarVuelo(idVuelo, boton) {
@@ -260,25 +244,22 @@ async function editarVuelo(idVuelo) {
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(payload)
                 });
-
-                if (!resActualizar.ok) throw new Error("Error al actualizar el vuelo");
+                if (!resActualizar.ok) throw new Error("Error al actualizar el vuelos");
 
                 const mensaje = await resActualizar.text();
+
                 alert(mensaje);
 
-                // Cerrar modal
                 const modal = bootstrap.Modal.getInstance(document.getElementById("modalNuevoVuelo"));
                 modal.hide();
 
-                // Refrescar lista de vuelos
-                buscarVuelosNuevo();
+       
             } catch (err) {
                 console.error(err);
                 alert("No se pudo actualizar el vuelo");
             }
         };
 
-        // Abrir modal
         const modal = new bootstrap.Modal(document.getElementById("modalNuevoVuelo"));
         modal.show();
 

@@ -297,4 +297,34 @@ document.getElementById("btnDeleteConfirm").addEventListener("click", async func
 //     if (modal) modal.hide();
 //   }
 // });
+// ======================================================
+//   BUSCAR RESERVA POR NOMBRE Y APELLIDO (coincidencias parciales)
+// ======================================================
+document.getElementById("buscarreservaClienteBtn").addEventListener("click", function () {
+  const input = document.getElementById("clienteinput").value.trim().toLowerCase();
 
+  // Si el campo está vacío → restaurar todas
+  if (!input) {
+    renderCards(vuelos, "admin", "vuelosReservados");
+    document.getElementById("vuelosReservadosSection").style.display = "block";
+    return;
+  }
+
+  // Filtrar en el array global 'vuelos' por coincidencia parcial en nombre o apellido
+  const filtrados = vuelos.filter(v => {
+    const nombre = v.pasajero?.nombre?.toLowerCase() ?? "";
+    const apellido = v.pasajero?.apellido?.toLowerCase() ?? "";
+    const nombreCompleto = `${nombre} ${apellido}`;
+    return nombre.includes(input) || apellido.includes(input) || nombreCompleto.includes(input);
+  });
+
+  // Renderizar resultados
+  renderCards(filtrados, "admin", "vuelosReservados");
+  document.getElementById("vuelosReservadosSection").style.display = "block";
+
+  // Mensaje si no hay resultados
+  if (filtrados.length === 0) {
+    document.getElementById("vuelosReservados").innerHTML =
+      `<div class="alert alert-warning">No se encontraron reservas para "${input}".</div>`;
+  }
+});
